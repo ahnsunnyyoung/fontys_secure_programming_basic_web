@@ -1,0 +1,33 @@
+version: '3' 
+services: 
+  project_SDL_back:
+    build: ./server/
+    image: "node_back"
+    container_name: "project_SDL_back"
+    ports: 
+      - "3000:3000"
+    networks: 
+      - back-end
+    restart: always 
+  project_SDL_db:
+    image: mongo
+    container_name: "project_SDL_db"
+    volumes:
+      - ./data-volume:/data/db/
+    ports:
+      - "27017:27017"
+    networks:
+      - back-end
+  project_SDL_front:
+    build: ./client/
+    image: "react_front"
+    container_name: "project_SDL_front"
+    ports: 
+      - "8080:8080"
+    networks: 
+      - back-end
+    restart: always 
+
+networks:
+  back-end:
+    driver: bridge
